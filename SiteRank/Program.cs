@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-//this is a comment
+
 namespace ConsoleApplication1
 {
     class Program
     {
         static List<string> siteRanks = new List<string>();
         static List<string> urls = new List<string>() { "facebook.com", "bing.com", "google.com" };
+        //snippet taken from Jac Timms http://www.ichi.co.uk/post/12744611627/getting-an-alexa-rank-programmatically-in-csharp
         static int GetAlexaRank(string domain)
         {
             var alexaRank = 0;
