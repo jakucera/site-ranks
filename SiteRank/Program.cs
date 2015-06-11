@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 
@@ -11,8 +9,6 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        static List<string> siteRanks = new List<string>();
-        static List<string> urls = new List<string>() { "facebook.com", "bing.com", "google.com" };
         //snippet taken from Jac Timms http://www.ichi.co.uk/post/12744611627/getting-an-alexa-rank-programmatically-in-csharp
         static int GetAlexaRank(string domain)
         {
@@ -29,40 +25,43 @@ namespace ConsoleApplication1
 
                 if (!int.TryParse(rank, out alexaRank))
                     alexaRank = -1;
-
             }
             catch (Exception e)
             {
                 return -1;
             }
-
             return alexaRank;
-
         }
 
         static void Main(string[] args)
         {
-            foreach (var url in urls)
-            {
-                int rank = GetAlexaRank(url);
-                var siteRank = url + "," + rank.ToString();
-                siteRanks.Add(siteRank);
-            }
-            //foreach (var siteRank in siteRanks)
-            //{
-            //Console.WriteLine("{0}, {1}", siteRank.Key, siteRank.Value);
-            //File.WriteAllLines("C:\\Users\rachelni\\Documents\\alexaranks.csv", siteRank.Key, siteRank.Value);
-            //}
             var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var filename = "alexaranks.csv";
+            var outputfilename = "alexaranks.csv";
+            var inputfilename = "urls.txt";
+            var inputpath = Path.Combine(folder, inputfilename);
+            var outputpath = Path.Combine(folder, outputfilename);
+            var siteranks = new Dictionary<string, string>();
+            
+            //Reading urls and saving to a dictionary
+            if(File.Exists(inputpath))
+            { 
+                String [] urls = System.IO.File.ReadAllLines(inputpath);
+                foreach (var url in urls)
+                {
+                    int rank = GetAlexaRank(url);
+                    siteranks.Add(url, rank.ToString());
+                   // Console.WriteLine(url + "," + rank);
+                }
+            }
 
-            var path = Path.Combine(folder, filename);
+            //Writing dictionary to file
+            if (!File.Exists(outputpath))
+            {
+                File.Create(outputpath);
+            }
 
-            //if (File.Exists(path))
-            //{
-            //}
+           File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
 
-            File.WriteAllLines(path, siteRanks);
         }
     }
 }
