@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-
 namespace ConsoleApplication1
 {
     class Program
@@ -45,27 +44,25 @@ namespace ConsoleApplication1
             //Reading urls and saving to a dictionary
             if (File.Exists(inputpath))
             {
-                string[] urls = File.ReadAllLines(inputpath);
-                foreach (var url in urls)
+                string[] urls = File.ReadAllLines(inputpath); //create array and put urls from urls.txt inside it
+                foreach (var url in urls) 
                 {
-                    int rank = GetAlexaRank(url);
-                    siteranks.Add(url, rank);
+                    int rank = GetAlexaRank(url); 
+                    siteranks.Add(url, rank); //add the url and the alexa rank to the siteranks dictionary
                     //Console.WriteLine(url + "," + rank);
                 }
-
                 Console.WriteLine("SUCCESS! Check your Documents folder for the output file");
-
             }
             else
             {
                 Console.WriteLine("ERROR! Please provide a list of urls in a file named 'urls.txt' in your Documents folder");
             }
             //Writing dictionary to alexaranks.csv
-                using (var file = new StreamWriter(outputpath))
+                using (var file = new StreamWriter(outputpath)) //opens or creates new csv file to write url and corresponding site rank to
             {
-                foreach (var siterank in siteranks)
+                foreach (var siterank in siteranks) //for each url and corresponding site rank
                 {
-                    file.WriteLine("{0},{1}", siterank.Key, siterank.Value);
+                    file.WriteLine("{0},{1}", siterank.Key, siterank.Value); //write each url and corresponding site rank to the file created or opened
                 }
             }
             //Not sure what this line does but it works if used in lieu of the function above so leaving it commented in for future reference
