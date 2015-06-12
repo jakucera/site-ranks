@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace ConsoleApplication1
 {
     class Program
-    {
+    { 
         //snippet taken from Jac Timms http://www.ichi.co.uk/post/12744611627/getting-an-alexa-rank-programmatically-in-csharp
         static int GetAlexaRank(string domain)
         {
@@ -58,7 +58,7 @@ namespace ConsoleApplication1
                 Console.WriteLine("ERROR! Please provide a list of urls in a file named 'urls.txt' in your Documents folder");
             }
             //Writing dictionary to alexaranks.csv
-                using (var file = new StreamWriter(outputpath)) //opens or creates new csv file to write url and corresponding site rank to
+                using (var file = new StreamWriter(outputpath)) //opens or creates new csv file to write url and corresponding site rank to. add true here if you want to append instead of overwrite
             {
                 foreach (var siterank in siteranks) //for each url and corresponding site rank
                 {
