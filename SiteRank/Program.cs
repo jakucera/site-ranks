@@ -28,7 +28,7 @@ namespace ConsoleApplication1
             }
             catch (Exception e)
             {
-                return -1;
+                Console.WriteLine(e.Message);
             }
             return alexaRank;
         }
@@ -61,7 +61,7 @@ namespace ConsoleApplication1
                 Console.WriteLine("ERROR! Please provide a list of urls in a file named 'urls.txt' in your Documents folder");
             }
             //Writing dictionary to alexaranks.csv
-                using (var file = new StreamWriter(outputpath, true))
+                using (var file = new StreamWriter(outputpath))
             {
                 foreach (var siterank in siteranks)
                 {
