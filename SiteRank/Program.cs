@@ -41,27 +41,40 @@ namespace ConsoleApplication1
             var inputpath = Path.Combine(folder, inputfilename);
             var outputpath = Path.Combine(folder, outputfilename);
             var siteranks = new Dictionary<string, string>();
-            
+
             //Reading urls and saving to a dictionary
-            if(File.Exists(inputpath))
-            { 
-                String [] urls = System.IO.File.ReadAllLines(inputpath);
+            if (File.Exists(inputpath))
+            {
+                String[] urls = System.IO.File.ReadAllLines(inputpath);
                 foreach (var url in urls)
                 {
                     int rank = GetAlexaRank(url);
                     siteranks.Add(url, rank.ToString());
-                   // Console.WriteLine(url + "," + rank);
+                    Console.WriteLine(url + "," + rank);
                 }
             }
+            else
+            {
+                Console.WriteLine("Please provide a list of urls in a urls.txt file");
+            }
 
-            //Writing dictionary to file
+
+            //If there is no alexaranks.csv create one in Documents
             if (!File.Exists(outputpath))
             {
                 File.Create(outputpath);
             }
 
-           File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
+            //Writing dictionary to alexaranks.csv
+            using (var file = new StreamWriter(outputpath))
+            {
+                foreach (var siterank in siteranks)
+                {
+                    file.WriteLine("{0},{1}", siterank.Key, siterank.Value);
+                }
+            }
 
+            //File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
         }
     }
 }
