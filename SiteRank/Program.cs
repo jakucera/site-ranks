@@ -50,22 +50,25 @@ namespace ConsoleApplication1
                 {
                     int rank = GetAlexaRank(url);
                     siteranks.Add(url, rank);
-                    Console.WriteLine(url + "," + rank);
+                    //Console.WriteLine(url + "," + rank);
                 }
+
+                Console.WriteLine("SUCCESS! Check your Documents folder for the output file");
+
             }
             else
             {
-                Console.WriteLine("Please provide a list of urls in a urls.txt file");
+                Console.WriteLine("ERROR! Please provide a list of urls in a file named 'urls.txt' in your Documents folder");
             }
             //Writing dictionary to alexaranks.csv
-                using (var file = new StreamWriter(outputpath))
+                using (var file = new StreamWriter(outputpath, true))
             {
                 foreach (var siterank in siteranks)
                 {
                     file.WriteLine("{0},{1}", siterank.Key, siterank.Value);
                 }
             }
-            //Not sure what this line does but it works so leaving it commented in
+            //Not sure what this line does but it works if used in lieu of the function about so leaving it commented in for future reference
             //File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
         }
     }
