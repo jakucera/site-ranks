@@ -45,7 +45,7 @@ namespace ConsoleApplication1
             //Reading urls and saving to a dictionary
             if (File.Exists(inputpath))
             {
-                String[] urls = File.ReadAllLines(inputpath);
+                string[] urls = File.ReadAllLines(inputpath);
                 foreach (var url in urls)
                 {
                     int rank = GetAlexaRank(url);
