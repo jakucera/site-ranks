@@ -62,11 +62,11 @@ namespace ConsoleApplication1
             //If there is no alexaranks.csv create one in Documents
             if (!File.Exists(outputpath))
             {
-                File.Create(outputpath);
-            }
-
+                var file = File.Create(outputpath);
+                file.Close();
+             }
             //Writing dictionary to alexaranks.csv
-            using (var file = new StreamWriter(outputpath))
+                using (var file = new StreamWriter(outputpath))
             {
                 foreach (var siterank in siteranks)
                 {
@@ -74,6 +74,7 @@ namespace ConsoleApplication1
                 }
             }
 
+            //Not sure what this line does but it works so leaving it commented in
             //File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
         }
     }
