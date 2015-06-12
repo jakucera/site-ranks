@@ -45,7 +45,7 @@ namespace ConsoleApplication1
             //Reading urls and saving to a dictionary
             if (File.Exists(inputpath))
             {
-                String[] urls = System.IO.File.ReadAllLines(inputpath);
+                String[] urls = File.ReadAllLines(inputpath);
                 foreach (var url in urls)
                 {
                     int rank = GetAlexaRank(url);
@@ -68,7 +68,7 @@ namespace ConsoleApplication1
                     file.WriteLine("{0},{1}", siterank.Key, siterank.Value);
                 }
             }
-            //Not sure what this line does but it works if used in lieu of the function about so leaving it commented in for future reference
+            //Not sure what this line does but it works if used in lieu of the function above so leaving it commented in for future reference
             //File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
         }
     }
