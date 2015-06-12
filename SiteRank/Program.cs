@@ -40,7 +40,7 @@ namespace ConsoleApplication1
             var inputfilename = "urls.txt";
             var inputpath = Path.Combine(folder, inputfilename);
             var outputpath = Path.Combine(folder, outputfilename);
-            var siteranks = new Dictionary<string, string>();
+            var siteranks = new Dictionary<string, int>();
 
             //Reading urls and saving to a dictionary
             if (File.Exists(inputpath))
@@ -49,7 +49,7 @@ namespace ConsoleApplication1
                 foreach (var url in urls)
                 {
                     int rank = GetAlexaRank(url);
-                    siteranks.Add(url, rank.ToString());
+                    siteranks.Add(url, rank);
                     Console.WriteLine(url + "," + rank);
                 }
             }
@@ -57,14 +57,6 @@ namespace ConsoleApplication1
             {
                 Console.WriteLine("Please provide a list of urls in a urls.txt file");
             }
-
-
-            //If there is no alexaranks.csv create one in Documents
-            if (!File.Exists(outputpath))
-            {
-                var file = File.Create(outputpath);
-                file.Close();
-             }
             //Writing dictionary to alexaranks.csv
                 using (var file = new StreamWriter(outputpath))
             {
@@ -73,7 +65,6 @@ namespace ConsoleApplication1
                     file.WriteLine("{0},{1}", siterank.Key, siterank.Value);
                 }
             }
-
             //Not sure what this line does but it works so leaving it commented in
             //File.WriteAllLines(outputpath, siteranks.Select(x => x.Key + "," + x.Value).ToArray());
         }
