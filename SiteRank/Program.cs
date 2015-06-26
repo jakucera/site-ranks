@@ -3,43 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using AlexaRanks;
 
-namespace ConsoleApplication1
+namespace SiteRank
 {
-    class Program
-    { 
-        //snippet taken from Jac Timms http://www.ichi.co.uk/post/12744611627/getting-an-alexa-rank-programmatically-in-csharp
-        static int GetAlexaRank(string domain)
+    public class Program
+    {
+        bool debug = true;        
+
+        public static void Main(string[] args)
         {
-            var alexaRank = 0;
-            try
-            {
-                var url = string.Format("http://data.alexa.com/data?cli=10&dat=snbamz&url={0}", domain);
-
-                var doc = XDocument.Load(url);
-
-                var rank = doc.Descendants("POPULARITY")
-                .Select(node => node.Attribute("TEXT").Value)
-                .FirstOrDefault();
-
-                if (!int.TryParse(rank, out alexaRank))
-                    alexaRank = -1;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return alexaRank;
-        }
-
-        static void Main(string[] args)
-        {
-            var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var outputfilename = "alexaranks.csv";
-            var inputfilename = "urls.txt";
-            var inputpath = Path.Combine(folder, inputfilename);
-            var outputpath = Path.Combine(folder, outputfilename);
-            var siteranks = new Dictionary<string, int>();
+            Program prg = new Program();
+            Alexa alexa = new Alexa();
+            string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string outputfilename = "alexaranks.csv";
+            string inputfilename = "urls.txt";
+            string inputpath = Path.Combine(folder, inputfilename);
+            string outputpath = Path.Combine(folder, outputfilename);
+            Dictionary<string, int> siteranks = new Dictionary<string, int>();
 
             //Reading urls and saving to a dictionary
             if (File.Exists(inputpath))
@@ -47,9 +28,13 @@ namespace ConsoleApplication1
                 string[] urls = File.ReadAllLines(inputpath); //create array and put urls from urls.txt inside it
                 foreach (var url in urls) 
                 {
-                    int rank = GetAlexaRank(url); 
+                    int rank = Alexa.GetAlexaRank(url); 
                     siteranks.Add(url, rank); //add the url and the alexa rank to the siteranks dictionary
-                    //Console.WriteLine(url + "," + rank);
+                    
+                    if(prg.debug)
+                    {
+                        Console.WriteLine(url + "," + rank);
+                    }                    
                 }
                 Console.WriteLine("SUCCESS! Check your Documents folder for the output file");
             }
@@ -57,8 +42,9 @@ namespace ConsoleApplication1
             {
                 Console.WriteLine("ERROR! Please provide a list of urls in a file named 'urls.txt' in your Documents folder");
             }
+
             //Writing dictionary to alexaranks.csv
-                using (var file = new StreamWriter(outputpath)) //opens or creates new csv file to write url and corresponding site rank to. add true here if you want to append instead of overwrite
+            using (var file = new StreamWriter(outputpath)) //opens or creates new csv file to write url and corresponding site rank to. add true here if you want to append instead of overwrite
             {
                 foreach (var siterank in siteranks) //for each url and corresponding site rank
                 {
