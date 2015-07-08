@@ -3,7 +3,7 @@ using System;
 
 namespace BingRanks
 {
-		public class BingRanks
+		public class Bing
 		{
 		public static int GetBingRank(string domain)
 		{
