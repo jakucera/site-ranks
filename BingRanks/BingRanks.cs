@@ -5,15 +5,13 @@ namespace BingRanks
 {
 		public class Bing
 		{
-		public static int GetBingRank(string domain)
+		public static int GetBingRank(string path, string domain)
 		{
-			string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			string bingranksfile = "bingranks.txt";
-			string bingrankspath = Path.Combine(folder, bingranksfile);
+            
 
 			try
 			{
-				using (StreamReader sr = new StreamReader(bingrankspath))
+				using (StreamReader sr = new StreamReader(path))
 				{
 					while (sr.Peek() >= 0)
 					{
